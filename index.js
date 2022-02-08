@@ -1,8 +1,14 @@
 const db = require('./models');
+const { Customer } = require('./models');
 
-// db.sequelize
-//     .authenticate()
-//     .then(() => console.log('db connected'))
-//     .catch(err => console.log(err.message));
+const run = async () => {
+    try {
+        // const customer = await Customer.create({ name: 'john' })
+        // const customer = await db.Customer.create({ name: 'john' })
+        await Customer.update({ address: 'Bangkok' }, { where: { id: 1 } });
+    } catch (err) {
+        console.log(err);
+    }
+};
 
-db.sequelize.sync({ force: false });
+run();
