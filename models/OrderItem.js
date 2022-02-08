@@ -1,23 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-    const Product = sequelize.define(
-        'Product',
+    const OrderItem = sequelize.define(
+        'OrderItem',
         {
-            name: {
-                type: DataTypes.STRING,
+            amount: {
+                type: DataTypes.INTEGER,
                 allowNull: false
             },
             price: {
-                type: DataTypes.DECIMAL(10, 2),
-                allowNull: false
-            },
-            description: DataTypes.STRING,
-            quantity: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.DECIMAL(14, 2),
                 allowNull: false,
-                defaultValue: 0,
-                validate: {
-                    isINT: true
-                }
+            },
+            discount: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+                defaultValue: 0
             }
         },
         {
@@ -25,19 +21,19 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    Product.associate = models => {
+    OrderItem.associate = models => {
 
 
-        Product.belongsTo(models.Supplier, {
+        OrderItem.belongsTo(models.Order, {
             foreignKey: {
-                name: 'supplierId',
+                name: 'orderId',
                 allowNull: false
             },
             onDelete: 'RESTRICT',
             onUpdate: 'RESTRICT'
         })
 
-        Product.hasMany(models.OrderItem, {
+        OrderItem.belongsTo(models.Product, {
             foreignKey: {
                 name: 'productId',
                 allowNull: false
@@ -45,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'RESTRICT'
         })
+
     }
-    return Product;
+    return OrderItem;
 };

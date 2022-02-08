@@ -1,29 +1,31 @@
 module.exports = (sequelize, DataTypes) => {
-    const Supplier = sequelize.define(
-        'Supplier',
+    const Department = sequelize.define(
+        'Department',
         {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            address: DataTypes.STRING,
-            phoneNumber: DataTypes.STRING
+            budget: {
+                type: DataTypes.DECIMAL(14, 2),
+                allowNull: false,
+                defaultValue: 0
+            }
         },
         {
             underscored: true
         }
     );
 
-    Supplier.associate = models => {
-        Supplier.hasMany(models.Product, {
+    Department.associate = models => {
+        Department.hasMany(models.Employee, {
             foreignKey: {
-                name: 'supplierId',
+                name: 'departmentId',
                 allowNull: false
             },
             onDelete: 'RESTRICT',
             onUpdate: 'RESTRICT'
         })
     }
-
-    return Supplier;
+    return Department;
 };
