@@ -4,11 +4,18 @@ module.exports = (sequelize, DataTypes) => {
         {
             name: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
             },
             price: {
                 type: DataTypes.DECIMAL(10, 2),
-                allowNull: false
+                allowNull: false,
+                validate: {
+                    min: 0.01,
+                    isNumeric: true
+                }
             },
             description: DataTypes.STRING,
             quantity: {
@@ -16,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 defaultValue: 0,
                 validate: {
-                    isINT: true
+                    isNumeric: true,
+                    min: 0
                 }
             }
         },
